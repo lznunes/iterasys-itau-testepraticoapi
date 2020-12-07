@@ -1,0 +1,150 @@
+package TestedeAPI;
+
+//importar bibliotecas
+import static io.restassured.RestAssured.*;
+import org.junit.FixMethodOrder;
+import org.junit.Test;
+import org.junit.runners.MethodSorters;
+
+
+@FixMethodOrder(MethodSorters.NAME_ASCENDING) //garante ordem dos testes por nome
+public class SwaggerPetstoreTestB {
+	
+	//A partir de uma massa de teste elaborada por você, crie 5 usuários e 10 pets (5 dogs e 5 cats)
+	
+	@Test //cria uma lista de usuários
+	public void test6A_Criar5Usuarios() {
+		given()
+		.contentType("application/json")
+			.body("[  {\"id\": 2, \"username\": \"luizantonio\", \"firstName\": \"Luiz\", \"lastName\": \"Antonio\", \"email\": \"luizantonio@iterasystest.com\",\"password\": \"test123\", \"phone\": \"11976340001\", \"userStatus\": 1},"
+					+ "{\"id\": 3, \"username\": \"luiznunes\", \"firstName\": \"Luiz\", \"lastName\": \"Nunes\", \"email\": \"luiznunes@iterasystest.com\",\"password\": \"test123\", \"phone\": \"11976340002\", \"userStatus\": 1},"
+					+ "{\"id\": 4, \"username\": \"luizneves\", \"firstName\": \"Luiz\", \"lastName\": \"Neves\", \"email\": \"luizneves@iterasystest.com\",\"password\": \"test123\", \"phone\": \"11976340003\", \"userStatus\": 1},"
+					+ "{\"id\": 5, \"username\": \"antonionunes\", \"firstName\": \"Antonio\", \"lastName\": \"Nunes\", \"email\": \"antonionunes@iterasystest.com\",\"password\": \"test123\", \"phone\": \"11976340004\", \"userStatus\": 1},"
+					+ "{\"id\": 6, \"username\": \"antonioneves\", \"firstName\": \"Antonio\", \"lastName\": \"Neves\", \"email\": \"antonioneves@iterasystest.com\",\"password\": \"tet123\", \"phone\": \"11976340005\", \"userStatus\": 1} ]")
+		.when()
+			.post("https://petstore.swagger.io/v2/user/createWithArray")
+		.then()
+			.log().all()
+			.statusCode(200);
+
+	}
+	
+	
+	@Test //cria os 10 pets 5 cats e 5 dogs
+	public void test6B_Criar10Pets() {
+			given()
+				.contentType("application/json")
+				.body("{\"id\": 11, \"category\": {\"id\": 0, \"name\": \"Dog\"},\"name\": \"Totó\",\"status\": \"available\"}")
+				.body("{\"id\": 12, \"category\": {\"id\": 0, \"name\": \"Dog\"},\"name\": \"Pingo\",\"status\": \"available\"}")
+				.body("{\"id\": 13, \"category\": {\"id\": 0, \"name\": \"Dog\"},\"name\": \"Lola\",\"status\": \"available\"}")
+				.body("{\"id\": 14, \"category\": {\"id\": 0, \"name\": \"Dog\"},\"name\": \"Belinha\",\"status\": \"available\"}")
+				.body("{\"id\": 15, \"category\": {\"id\": 0, \"name\": \"Dog\"},\"name\": \"Rex\",\"status\": \"available\"}")
+				.body("{\"id\": 16, \"category\": {\"id\": 1, \"name\": \"Cat\"},\"name\": \"Tomaz\",\"status\": \"available\"}")
+				.body("{\"id\": 17, \"category\": {\"id\": 1, \"name\": \"Cat\"},\"name\": \"Frodo\",\"status\": \"available\"}")
+				.body("{\"id\": 18, \"category\": {\"id\": 1, \"name\": \"Cat'\"},\"name\": \"Bilu\",\"status\": \"available\"}")
+				.body("{\"id\": 19, \"category\": {\"id\": 1, \"name\": \"Cat\"},\"name\": \"Bixano\",\"status\": \"available\"}")
+				.body("{\"id\": 20, \"category\": {\"id\": 1, \"name\": \"Cat\"},\"name\": \"Elvis\",\"status\": \"available\"}")
+				
+			.when()
+				.post("https://petstore.swagger.io/v2/pet")
+			.then()
+				.log().all()
+				.statusCode(200);
+	}
+	
+	
+	
+	@Test //Faça a venda de 1 dog e 1 cat para cada usuário
+	public void test7_FacaVendaPets() { 
+		//fazer a venda dos pets
+		given()
+			.contentType("application/json")
+			.body("{\"id\": 2,\"petId\": 11,\"quantity\": 1,\"shipDate\": \"2020-12-05T13:15:03.596+0000\", \"status\": \"placed\",\"complete\": true}")
+		.when()
+			.post("https://petstore.swagger.io/v2/store/order")
+		.then()
+			.log().all()
+			.statusCode(200);
+		
+		given()
+			.contentType("application/json")			
+			.body("{\"id\": 3,\"petId\": 12,\"quantity\": 1,\"shipDate\": \"2020-12-05T13:16:03.596+0000\", \"status\": \"placed\",\"complete\": true}")
+		.when()
+			.post("https://petstore.swagger.io/v2/store/order")
+		.then()
+			.log().all()
+			.statusCode(200);
+			
+		given()
+			.contentType("application/json")	
+	    	.body("{\"id\": 4,\"petId\": 13,\"quantity\": 1,\"shipDate\": \"2020-12-05T13:17:03.596+0000\", \"status\": \"placed\",\"complete\": true}")
+    	.when()
+			.post("https://petstore.swagger.io/v2/store/order")
+		.then()
+			.log().all()
+			.statusCode(200);
+	
+		given()
+			.contentType("application/json")
+	    	.body("{\"id\": 5,\"petId\": 14,\"quantity\": 1,\"shipDate\": \"2020-12-05T13:18:03.596+0000\", \"status\": \"placed\",\"complete\": true}")
+    	.when()
+			.post("https://petstore.swagger.io/v2/store/order")
+		.then()
+			.log().all()
+			.statusCode(200);
+    
+		given()
+			.contentType("application/json")	
+	    	.body("{\"id\": 6,\"petId\": 15,\"quantity\": 1,\"shipDate\": \"2020-12-05T13:19:03.596+0000\", \"status\": \"placed\",\"complete\": true}")
+    	.when()
+			.post("https://petstore.swagger.io/v2/store/order")
+		.then()
+			.log().all()
+			.statusCode(200);
+    	
+		given()
+			.contentType("application/json")
+	       	.body("{\"id\": 7,\"petId\": 16,\"quantity\": 1,\"shipDate\": \"2020-12-05T13:20:03.596+0000\", \"status\": \"placed\",\"complete\": true}")
+       	.when()
+			.post("https://petstore.swagger.io/v2/store/order")
+		.then()
+			.log().all()
+			.statusCode(200);
+		
+       	given()
+			.contentType("application/json")
+	        .body("{\"id\": 8,\"petId\": 17,\"quantity\": 1,\"shipDate\": \"2020-12-05T13:21:03.596+0000\", \"status\": \"placed\",\"complete\": true}")
+        .when()
+			.post("https://petstore.swagger.io/v2/store/order")
+		.then()
+			.log().all()
+			.statusCode(200);
+        
+		given()
+			.contentType("application/json")
+	        .body("{\"id\": 9,\"petId\": 18,\"quantity\": 1,\"shipDate\": \"2020-12-05T13:22:03.596+0000\", \"status\": \"placed\",\"complete\": true}")
+        .when()
+			.post("https://petstore.swagger.io/v2/store/order")
+		.then()
+			.log().all()
+			.statusCode(200);   
+	    
+	   given()
+			.contentType("application/json")
+	        .body("{\"id\": 10,\"petId\": 19,\"quantity\": 1,\"shipDate\": \"2020-12-05T13:23:03.596+0000\", \"status\": \"placed\",\"complete\": true}")
+	   .when()
+			.post("https://petstore.swagger.io/v2/store/order")
+		.then()
+			.log().all()
+			.statusCode(200);	
+	   
+		given()
+			.contentType("application/json")
+	        .body("{\"id\": 11,\"petId\": 20,\"quantity\": 1,\"shipDate\": \"2020-12-05T13:24:03.596+0000\", \"status\": \"placed\",\"complete\": true}")
+		.when()
+			.post("https://petstore.swagger.io/v2/store/order")
+		.then()
+			.log().all()
+			.statusCode(200);
+		}
+}

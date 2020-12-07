@@ -1,0 +1,21 @@
+package TestedeAPI;
+import static io.restassured.RestAssured.*;
+import org.junit.Test;
+
+public class SwaggerPetstore {
+	
+	@Test // Crie a usuaria Arminda Vieira
+	public void criarUsuaria() {
+		given()
+		.contentType("application/json")
+		.body("{\"id\": 0, \"username\": \"armindaviera\", \"firstName\": \"Arminda\","
+				+ " \"lastName\": \"Viera\", \"email\": \"armindaviera@iterasystestapi.com\","
+				+ "\"password\": \"test123\", \"phone\": \"976340000\", \"userStatus\": 1}")
+		.when()
+		.post("https://petstore.swagger.io/v2/user")
+		.then()
+			.log().all()
+			.statusCode(200);	
+	}
+
+}

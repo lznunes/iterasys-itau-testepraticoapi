@@ -1,0 +1,13 @@
+Utilize a Swagger Petstore (https://petstore.swagger.io/):
+A - Simples:
+1) Crie a usuaria Arminda Vieira
+2) Crie o pet Fofucho (dog)
+3) Faça a venda do Fofucho para a Arminda Vieira
+4) Mude o status da ordem de venda do Fofucho para "delivered"
+5) Consulte a ordem gerada e valide se está correta
+
+B - Com Massa de Teste:
+6) A partir de uma massa de teste elaborada por você, crie 5 usuários e 10 pets (5 dogs e 5 cats)
+7) Faça a venda de 1 dog e 1 cat para cada usuário
+8) Mude o status das ordens de venda de dogs para "delivered" e de cats para "approved"
+9) Consulte as ordens geradas e valide se estão corretas

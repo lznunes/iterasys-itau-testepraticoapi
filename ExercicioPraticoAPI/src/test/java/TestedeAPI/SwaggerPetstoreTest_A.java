@@ -1,0 +1,94 @@
+package TestedeAPI;
+
+//importar bibliotecas
+import static io.restassured.RestAssured.*;
+import org.junit.FixMethodOrder;
+import org.junit.Test;
+import org.junit.runners.MethodSorters;
+
+
+@FixMethodOrder(MethodSorters.NAME_ASCENDING) //garante ordem dos testes por nome
+public class SwaggerPetstoreTest_A {
+		
+	@Test // Crie a usuaria Arminda Vieira
+	public void test1_CriarUsuaria() {
+		given()
+			.contentType("application/json")
+			.body("{\"id\": 1, \"username\": \"armindaviera\", \"firstName\": \"Arminda\","
+					+ " \"lastName\": \"Viera\", \"email\": \"armindaviera@iterasystestapi.com\","
+					+ "\"password\": \"test123\", \"phone\": \"976340000\", \"userStatus\": 1}")
+		.when()
+			.post("https://petstore.swagger.io/v2/user")
+		.then()
+			.log().all()
+			.statusCode(200);	
+	}
+	
+		
+	
+	@Test // Crie o pet Fofucho (dog)
+	public void test2_CriarPet() {
+		given()
+			.contentType("application/json")
+			.body("{\"id\": 10, \"category\": {\"id\": 0, \"name\": \"Dog\"},\"name\": \"Fofucho\","
+					+ "\"status\": \"available\"}")
+		.when()
+			.post("https://petstore.swagger.io/v2/pet")
+		.then()
+			.log().all()
+			.statusCode(200);
+	}
+	
+	
+	@Test  //Faça a venda do Fofucho para a Arminda Vieira
+	public void test3_FacaVendaParaUsuaria() {
+		given()
+			.contentType("application/json")
+			.body("{\"id\": 1,\"petId\": 10,\"quantity\": 1,\"shipDate\": \"2020-12-05T13:15:03.596+0000\","
+					+ " \"status\": \"placed\",\"complete\": true}")
+		.when()
+			.post("https://petstore.swagger.io/v2/store/order")
+		.then()
+			.log().all()
+			.statusCode(200);
+		
+		//atualiza a tag para o nome da usuária
+		given()
+			.contentType("application/json")
+			.body("{\"id\": 1, \"category\": {\"id\": 0, \"name\": \"Dog\"},\"name\": \"Fofucho\","
+				+ "\"tags\": [{\"id\":1, \"name\":\"Arminda Vieira\"}]}")
+		.when()
+			.put("https://petstore.swagger.io/v2/pet")
+		.then()
+			.log().all()
+			.statusCode(200);
+	}
+	
+	
+	@Test	//Mude o status da ordem de venda do Fofucho para "delivered"
+			//Não tem PUT para atualizar na API repetir o POST da venda somente alterando o campo status
+	public void test4_MudarStatusVenda() {
+		given()
+		.contentType("application/json")
+		.body("{\"id\": 1,\"petId\": 10,\"quantity\": 1,\"shipDate\": \"2020-12-05T13:15:03.596+0000\","
+				+ " \"status\": \"delivered\",\"complete\": true}")
+	.when()
+		.post("https://petstore.swagger.io/v2/store/order")
+	.then()
+		.log().all()
+		.statusCode(200);
+	}
+	
+	@Test // Consulte a ordem gerada e valide se está correta
+	public void test5_ConsultarOrdensDeVenda() {
+		given()
+			.contentType("application/json")
+		.when()
+			.get("https://petstore.swagger.io/v2/store/order/1")
+		.then()
+			.log().all()
+			.statusCode(200);
+	}
+	
+
+}

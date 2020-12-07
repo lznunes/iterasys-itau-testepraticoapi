@@ -1,0 +1,31 @@
+package TestedeAPI;
+
+//importar bibliotecas
+import static io.restassured.RestAssured.*;
+import org.junit.FixMethodOrder;
+import org.junit.Test;
+import org.junit.runners.MethodSorters;
+
+
+@FixMethodOrder(MethodSorters.NAME_ASCENDING) //garante ordem dos testes por nome
+public class SwaggerPetstoreTestB {
+	
+	//A partir de uma massa de teste elaborada por você, crie 5 usuários e 10 pets (5 dogs e 5 cats)
+	@Test
+	public void test6A_Criar5usuarios() {
+		given()
+		.contentType("application/json")
+			.body("[  {\"id\": 2, \"username\": \"luizantonio\", \"firstName\": \"Luiz\", \"lastName\": \"Antonio\", \"email\": \"luizantonio@iterasystest.com\",\"password\": \"test123\", \"phone\": \"11976340001\", \"userStatus\": 1},"
+					+ "{\"id\": 3, \"username\": \"luiznunes\", \"firstName\": \"Luiz\", \"lastName\": \"Nunes\", \"email\": \"luiznunes@iterasystest.com\",\"password\": \"test123\", \"phone\": \"11976340002\", \"userStatus\": 1},"
+					+ "{\"id\": 4, \"username\": \"luizneves\", \"firstName\": \"Luiz\", \"lastName\": \"Neves\", \"email\": \"luizneves@iterasystest.com\",\"password\": \"test123\", \"phone\": \"11976340003\", \"userStatus\": 1},"
+					+ "{\"id\": 5, \"username\": \"antonionunes\", \"firstName\": \"Antonio\", \"lastName\": \"Nunes\", \"email\": \"antonionunes@iterasystest.com\",\"password\": \"test123\", \"phone\": \"11976340004\", \"userStatus\": 1},"
+					+ "{\"id\": 6, \"username\": \"antonioneves\", \"firstName\": \"Antonio\", \"lastName\": \"Neves\", \"email\": \"antonioneves@iterasystest.com\",\"password\": \"tet123\", \"phone\": \"11976340005\", \"userStatus\": 1} ]")
+		.when()
+			.post("https://petstore.swagger.io/v2/user/createWithArray")
+		.then()
+			.log().all()
+			.statusCode(200);
+
+	}
+	
+}
